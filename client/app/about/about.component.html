@@ -1,0 +1,18 @@
+<div class="card">
+  <h4 class="card-header">PDF to TEXT</h4>
+  <div class="card-body">
+    <div class="border-container">
+      <input #takeInput
+      type="file"
+      accept=".ZIP,.TAR,.TGZ "
+      formControlName="file"
+      (change)="onFileChange($event.target)"
+      id="file-upload">
+      <p>{{'dragFile'}}</p>
+    </div>
+    <!-- <div *ngIf="f.file.errors && f.file.errors.fileSize" class="invalid-feedback d-block">
+      <div>{{'fileSizeExceed'}}</div>
+    </div> -->
+  
+  </div>
+</div>
