@@ -1,13 +1,22 @@
 <div class="card">
-  <h4 class="card-header">PDF to TEXT</h4>
-  <div class="card-body">
+  <h4 class="card-header text-center">Please upload the PDF file below</h4>
+  <div class="card-body text-center">
     <div class="border-container">
       <input #takeInput
       type="file"
       accept=".PDF"
       (change)="onFileChange($event)"
       id="file-upload">
-      <p>{{'Drag the file here'}}</p>
+    </div>
+  </div>
+
+  <div *ngIf="text">
+    <h5 class="card-header text-center">Text Content</h5>
+    <div class="card-body">
+      <div class="border-container">
+        <p style="white-space: pre-line"> {{text}} </p>
+      </div>
     </div>
   </div>
 </div>
+

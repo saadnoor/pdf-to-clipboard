@@ -1,4 +1,4 @@
-import { request } from 'express';
+import { request, response } from 'express';
 import File from '../models/file';
 import BaseCtrl from './base';
 const fs = require('fs');
@@ -18,50 +18,20 @@ class FileCtrl extends BaseCtrl {
 
   uploadFile = async (req: any, res: any, next: any) => {
     try {
-    // const pdfParser = new PDFParser();
-
     const fileInformation = req.body;
-      console.log(req.file)
-    //   fileInformation.url = req.file.location;
+
       fileInformation.fileName = req.file.originalname;
 
-      let dataBuffer = fs.readFileSync(req.file.path);
-
-      pdf(dataBuffer).then(function(data: any) {
- 
-        // number of pages
-        console.log(data.numpages);
-        // number of rendered pages
-        console.log(data.numrender);
-        // PDF.js version
-        // check https://mozilla.github.io/pdf.js/getting_started/
-        console.log(data.version);
-        // PDF text
-        console.log(data.text); 
-            
-    });
-
-    const s3 = new AWS.S3({
-        accessKeyId: IAM_USER_KEY,
-        secretAccessKey: IAM_USER_SECRET
-      });
-
-    var params = {    
-            Bucket: BUCKET_NAME,
-            Acl: 'public-read',
-            Body: req.file.path,
-            Key: 'takia-malia.pdf', // file will be saved as testBucket/contacts.csv
-        };
-
-        s3.upload(params, function(s3Err, data) {
-            if (s3Err) throw s3Err
-            console.log(`File uploaded successfully at ${data.Location}`)
-        });
-
-      const obj = await new File(fileInformation).save();
-      res.json(obj );
-
-
+    await Promise.all( [getTextFromPDF(req.file.path), uploadFileToS3(req.file.path)])
+            .then(async ([text, location]) => {
+                fileInformation.url = location;
+                fileInformation.content = text;
+                ;
+            })
+    
+    const [response, _y] = await Promise.all([new File(fileInformation).save(), fs.promises.unlink( req.file.path )])
+    
+    res.json(response );
 
     } catch (error: any) {
       console.log(error.toLocaleString());
@@ -82,6 +52,42 @@ class FileCtrl extends BaseCtrl {
       return res.sendStatus(500).json(error.toString());
     }
   }
+
 }
+
+async function uploadFileToS3(filePath: string): Promise<any>  {
+
+    return new Promise<any>((resolve, reject) => {
+
+        const s3 = new AWS.S3({
+            accessKeyId: IAM_USER_KEY,
+            secretAccessKey: IAM_USER_SECRET
+          });
+    
+        var params = {    
+                Bucket: BUCKET_NAME,
+                Acl: 'public-read',
+                Body: filePath,
+                Key: 'takia-malia3.pdf', // file will be saved as testBucket/contacts.csv
+            };
+    
+        s3.upload(params, function(s3Err, data) {
+                if (s3Err) throw reject(s3Err);
+                else resolve(data.Location)
+        });
+    });
+ 
+}
+
+async function getTextFromPDF(filePath: string): Promise<any>  {
+
+    return new Promise<any>((resolve, reject) => {
+        let dataBuffer = fs.readFileSync(filePath);
+
+        pdf(dataBuffer).then( (data: any) => resolve(data.text))
+      });
+}
+
+
 
 export default FileCtrl;

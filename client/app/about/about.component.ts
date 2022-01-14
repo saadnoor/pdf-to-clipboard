@@ -11,6 +11,7 @@ export class PdfUploadComponent {
   file!: File;
   isLoading = false;
   form!: FormGroup;
+  text: string = "";
 
   constructor(private pdfUploadService: PdfUploadService) { }
 
@@ -39,6 +40,7 @@ export class PdfUploadComponent {
   }
   handleSuccessfulUpload(res: any) {
     console.log("file uploaded", res)
+    this.text = res.content;
   }
   handleUploadError() {
     throw new Error('Method not implemented.');
