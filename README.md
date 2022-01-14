@@ -1,7 +1,7 @@
 # PDF To Clipboard 
 This is a tool to extract the text from PDF file.
 
-[See Live Demo](https://basis-support-app.herokuapp.com/)
+[See Live Demo](https://pdf-to-clipboard.herokuapp.com/)
 
 In this project:
 1. You can extract the text from pdf file
