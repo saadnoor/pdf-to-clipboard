@@ -23,7 +23,7 @@ class FileCtrl extends BaseCtrl {
 
       fileInformation.fileName = req.file.originalname;
 
-    await Promise.all( [getTextFromPDF(req.file.path), uploadFileToS3(req.file.path)])
+    await Promise.all( [getTextFromPDF(req.file.path), uploadFileToS3(req.file.path, req.file.originalname)])
             .then(async ([text, location]) => {
                 fileInformation.url = location;
                 fileInformation.content = text;
@@ -56,7 +56,7 @@ class FileCtrl extends BaseCtrl {
 
 }
 
-async function uploadFileToS3(filePath: string): Promise<any>  {
+async function uploadFileToS3(filePath: string, originalname: string,): Promise<any>  {
 
     return new Promise<any>((resolve, reject) => {
 
@@ -69,7 +69,7 @@ async function uploadFileToS3(filePath: string): Promise<any>  {
                 Bucket: BUCKET_NAME,
                 Acl: 'public-read',
                 Body: filePath,
-                Key: 'takia-malia3.pdf', // file will be saved as testBucket/contacts.csv
+                Key: `${Date.now().toString()}${originalname}`,
             };
     
         s3.upload(params as PutObjectRequest, function(s3Err, data) {
