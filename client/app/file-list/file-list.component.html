@@ -17,10 +17,13 @@
         <tbody>
           <tr *ngFor="let file of files">
             <td>{{file.fileName}}</td>
-            <td>{{file.content}}</td>
-            <td>
+            <td>{{formatLargeText(file.content)}}</td>
+            <td class="buttons">
               <button class="btn btn-sm btn-primary" (click)="downloadFile(file)">
-                <i class="fa fa-cloud"></i> {{ 'download' }}
+                <i class="fa fa-download"></i> {{ 'Download' }}
+              </button>
+              <button class="btn btn-sm btn-primary" (click)="onCopy(file)">
+                <i class="fa fa-copy"></i> {{ 'Copy' }}
               </button>
             </td>
           </tr>

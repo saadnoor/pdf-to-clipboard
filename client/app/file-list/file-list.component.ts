@@ -1,10 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PdfUploadService } from '../services/pdf-upload.service';
 import { ToastComponent } from '../shared/toast/toast.component';
+import * as copy from 'copy-to-clipboard';
+
 
 @Component({
   selector: 'app-file-list',
-  templateUrl: './file-list.component.html'
+  templateUrl: './file-list.component.html',
+  styleUrls: ['./file-list.component.scss']
 })
 export class FileListComponent implements OnInit {
   files: any[] = [];
@@ -14,7 +17,6 @@ export class FileListComponent implements OnInit {
   @Input() email: string = "";
 
   constructor(
-    public toast: ToastComponent,
     public pdfUploadService: PdfUploadService) { }
 
   ngOnInit(): void {
@@ -53,7 +55,16 @@ export class FileListComponent implements OnInit {
       window.location.href = file.url;
     }
     else {
-      this.toast.setMessage('this file is corrupted.', 'danger');
+        // this.toastr.error('Hello world!', 'Toastr fun!');
     }
+  }
+
+  onCopy(file: any) {
+    copy(file.content)
+  }
+
+  formatLargeText(s: string): string {
+      if(s.length < 20 ) return s;
+      else return s.substring(0, 19) + '...';
   }
 }

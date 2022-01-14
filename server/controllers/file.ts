@@ -4,6 +4,7 @@ import BaseCtrl from './base';
 const fs = require('fs');
 const pdf = require('pdf-parse');
 import * as AWS from 'aws-sdk';
+import { PutObjectRequest } from 'aws-sdk/clients/s3';
 const multerS3 = require('multer-s3');
 
 const BUCKET_NAME = process.env.BUCKET_NAME;
@@ -71,7 +72,7 @@ async function uploadFileToS3(filePath: string): Promise<any>  {
                 Key: 'takia-malia3.pdf', // file will be saved as testBucket/contacts.csv
             };
     
-        s3.upload(params, function(s3Err, data) {
+        s3.upload(params as PutObjectRequest, function(s3Err, data) {
                 if (s3Err) throw reject(s3Err);
                 else resolve(data.Location)
         });
