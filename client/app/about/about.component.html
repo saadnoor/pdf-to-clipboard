@@ -4,15 +4,10 @@
     <div class="border-container">
       <input #takeInput
       type="file"
-      accept=".ZIP,.TAR,.TGZ "
-      formControlName="file"
-      (change)="onFileChange($event.target)"
+      accept=".PDF"
+      (change)="onFileChange($event)"
       id="file-upload">
-      <p>{{'dragFile'}}</p>
+      <p>{{'Drag the file here'}}</p>
     </div>
-    <!-- <div *ngIf="f.file.errors && f.file.errors.fileSize" class="invalid-feedback d-block">
-      <div>{{'fileSizeExceed'}}</div>
-    </div> -->
-  
   </div>
 </div>

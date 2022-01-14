@@ -11,18 +11,19 @@ import { AuthGuardLogin } from './services/auth-guard-login.service';
 import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 // Components
 import { AppComponent } from './app.component';
-import { AboutComponent } from './about/about.component';
+import { PdfUploadComponent } from './about/about.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { AccountComponent } from './account/account.component';
 import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { PdfUploadService } from './services/pdf-upload.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AboutComponent,
+    PdfUploadComponent,
     RegisterComponent,
     LoginComponent,
     LogoutComponent,
@@ -42,6 +43,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
   ],
   providers: [
     AuthService,
+    PdfUploadService,
     AuthGuardLogin,
     AuthGuardAdmin,
     UserService
