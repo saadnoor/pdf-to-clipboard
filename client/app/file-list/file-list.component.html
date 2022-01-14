@@ -1,0 +1,30 @@
+<div class="card text-center" *ngIf="!isFileLoaded">
+    <h4 class="card-header">{{ 'uploadedFiles'  }}</h4>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">{{ 'fileName'  }}</th>
+            <th scope="col">{{ 'text'  }}</th>
+            <th scope="col">{{ 'actions' }}</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="files.length === 0">
+          <tr class="text-center">
+            <td colspan="4">{{ 'noUploadMsg' }}</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr *ngFor="let file of files">
+            <td>{{file.fileName}}</td>
+            <td>{{file.content}}</td>
+            <td>
+              <button class="btn btn-sm btn-primary" (click)="downloadFile(file)">
+                <i class="fa fa-cloud"></i> {{ 'download' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -12,6 +12,11 @@
 
   <div *ngIf="text">
     <h5 class="card-header text-center">Text Content</h5>
+    <div class="copy" (click)="onCopyToClipBoard()">
+        <i class="fa fa-copy"></i> {{copyButtonText}}
+    </div>
+ 
+
     <div class="card-body">
       <div class="border-container">
         <p style="white-space: pre-line"> {{text}} </p>

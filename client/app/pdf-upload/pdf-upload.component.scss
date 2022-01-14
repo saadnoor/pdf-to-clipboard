@@ -1,0 +1,17 @@
+ul {
+  &:first-child {
+    list-style-type: none;
+    margin-left: -20px;
+  }
+}
+
+.copy {
+  float: right;
+  padding: 10px;
+  margin: 10px;
+}
+
+.copy:hover {
+  cursor: pointer;
+  background-color: lightgray;
+}
